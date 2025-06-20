@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Signature {
+  signature   String @id
+  blockTime   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  settledGame   SettledGame?
+  poolChange    PoolChange?
+
+  @@map("signatures")
+}
+
+model SettledGame {
+  signature              String @id
+  blockTime              Int
+  metadata               String?
+  nonce                  String
+  clientSeed             String
+  rngSeed                String
+  nextRngSeedHashed      String
+  bet                    String // JSON string
+  betLength              Int
+  resultNumber           Int
+  creator                String
+  user                   String
+  token                  String
+  pool                   String
+  wager                  String
+  payout                 String
+  multiplierBps          String
+  creatorFee             String
+  poolFee                String
+  whiskyFee              String
+  jackpotFee             String
+  jackpot                String
+  poolLiquidity          String
+  usdPerUnit             Float
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  signatureRef Signature @relation(fields: [signature], references: [signature])
+
+  @@map("settled_games")
+}
+
+model PoolChange {
+  signature       String @id
+  blockTime       Int
+  action          String // 'deposit' or 'withdraw'
+  token           String
+  pool            String
+  user            String
+  amount          String
+  lpSupply        String
+  postLiquidity   String
+  usdPerUnit      Float
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  signatureRef Signature @relation(fields: [signature], references: [signature])
+
+  @@map("pool_changes")
+} 

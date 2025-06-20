@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "src/index.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "DATABASE_URL": "@database-url",
+    "HELIUS_API_KEY": "@helius-api-key",
+    "SOLANA_RPC_ENDPOINT": "@solana-rpc-endpoint"
+  },
+  "buildCommand": "npm run build && npm run db:generate",
+  "installCommand": "npm install"
+} 
